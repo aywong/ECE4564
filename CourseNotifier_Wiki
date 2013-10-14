@@ -1,0 +1,10 @@
+DESCRIPTION
+
+CourseNotifier is an application for Virginia Tech students who want to join a course that is currently full. Students can select a term and enter the CRN of a course that is currently full. The application will continually ping Tech’s  course time table (https://banweb.banner.vt.edu/ssb/prod/HZSKVTSC.P_ProcRequest) until the course has available seats or the user clicks the “stop” button. The application will also keep track of the number of  times it has checked the server for open seats before it found an available seat.
+
+     
+
+
+SOURCE CODE ORGANIZATION
+
+Once a user selects a term,  enters a CRN, and presses the “Start” button, the application starts two runnables that call HttpTask (extends AsyncTask). HttpTask overrides the doInBackground of AsyncTask. The doInBackground method checks virginia tech’s course time table webpage for the CRN entered by the user. I need to run this call twice with two different POST conditions; one in which all sections (open or not) are shown, and one in which only open  course sections are shown. I ensure that both POST threads are done with a counter variable that keeps track of when a thread finishes before comparing the two results. When the two threads finish, I compare them in the method last within my MainActivity and end up outputting a response to the user. The response could be that there are seats available, that the class section is full (in which the application will call two runnables over and over again until seats are available), and lastly that there was an error (which could be caused by  no internet connection, or that the CRN does no exist).
